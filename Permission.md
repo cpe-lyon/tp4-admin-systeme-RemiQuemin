@@ -47,7 +47,7 @@ chown u1:group2 /home/u4
 #### • Remplacez le groupe primaire des utilisateurs :
 #### - groupe1 pour u1 et u2 <br>
 #### - groupe2 pour u3 et u4 <br>
-Pour remplacer le groupe pirmaire des utilisateurs : 
+Pour remplacer le groupe primaire des utilisateurs : 
 ```
 usermod -g groupe1 u1 
 usermod -g groupe1 u2
@@ -56,10 +56,17 @@ usermod -g groupe2 u4
 ```
 
 #### • Créez deux répertoires /home/groupe1 et /home/groupe2 pour le contenu commun aux groupes, et mettez en place les permissions permettant aux membres de chaque groupe d’écrire dans le dossier associé.
+Tout d'abord je crée mes deux repertoires : `mkdir /home/groupe1 /home/groupe2`, ensuite `chown u1: groupe1 groupe1` et `chown u2: groupe groupe2`, enfin je donne les permissions :  `chmod -R 720 groupe2` et `chmod -R 720 groupe1`.
 
-• Comment faire pour que, dans ces dossiers, seul le propriétaire d’un fichier ait le droit de renommer
-ou supprimer ce fichier ?
+#### • Comment faire pour que, dans ces dossiers, seul le propriétaire d’un fichier ait le droit de renommer ou supprimer ce fichier ?
+Nous pouvons utiliser le sticky bit : 
+```
+chmod +t /home/groupe1
+chmod +t /home/groupe2
+```
+
 • Pouvez-vous vous connecter en tant que u1 ? Pourquoi ?
+
 • Activez le compte de l’utilisateur u1 et vérifiez que vous pouvez désormais vous connecter avec son
 compte.
 • Quels sont l’uid et le gid de u1 ?
