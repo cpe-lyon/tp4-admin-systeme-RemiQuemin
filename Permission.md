@@ -2,21 +2,61 @@
 
 
 ### Exercice 1. Gestion des utilisateurs et des groupes
-• Commencez par créer deux groupes groupe1 et groupe2
-• Créez ensuite 4 utilisateurs u1, u2, u3, u4 avec la commande useradd, en demandant la création de
-leur dossier personnel et avec bash pour shell
-• Placez les utilisateurs dans les groupes :
-- u1, u2, u4 dans groupe1
-- u2, u3, u4 dans groupe2
-• Donnez deux moyens d’afficher les membres de groupe2
-• Faites de groupe1 le groupe propriétaire de /home/u1 et /home/u2 et de groupe2 le groupe propriétaire
-de /home/u3 et /home/u4
-• Remplacez le groupe primaire des utilisateurs :
-- groupe1 pour u1 et u2
-- groupe2 pour u3 et u4
-• Créez deux répertoires /home/groupe1 et /home/groupe2 pour le contenu commun aux groupes, et
-mettez en place les permissions permettant aux membres de chaque groupe d’écrire dans le dossier
-associé.
+#### • Commencez par créer deux groupes groupe1 et groupe2
+Tout d'abord pour avoir les droits de créer les deux groupes : `sudo su` <br>
+Par la suite `addgroup groupe1`, `addgroup groupe2`.
+
+#### • Créez ensuite 4 utilisateurs u1, u2, u3, u4 avec la commande useradd, en demandant la création de leur dossier personnel et avec bash pour shell.
+Création des différents utilisateurs :  
+```
+useradd u1 -m
+useradd u2 -m 
+useradd u3 -m
+useradd u4 -m
+```
+#### • Placez les utilisateurs dans les groupes :
+#### - u1, u2, u4 dans groupe1
+Pour placer user u1 dans le groupe groupe1 :
+``` 
+usermod -a -G groupe1 u1
+usermod -a -G groupe1 u2
+usermod -a -G groupe1 u4
+``` 
+
+#### - u2, u3, u4 dans groupe2
+Pour placer par exemple user u1 dans le groupe secondaire groupe2 :
+``` 
+usermod -a -G groupe2 u2
+usermod -a -G groupe2 u3
+usermod -a -G groupe2 u4
+``` 
+#### • Donnez deux moyens d’afficher les membres de groupe2
+Deux moyens d'afficher les membres de groupe2
+-`grep '^groupe2' /etc/group`. <br>
+-Sinon avec le paquet "members" avec `apt get install members`ensuite il suffit de faire `members groupe1` et `members groupe2`.
+
+#### • Faites de groupe1 le groupe propriétaire de /home/u1 et /home/u2 et de groupe2 le groupe propriétaire de /home/u3 et /home/u4.
+Pour faire de groupe1 le groupe proprietaire on utilise la commande `chown`.
+```
+chown u1:group1 /home/u1
+chown u1:group1 /home/u2 
+chown u1:group2 /home/u3 
+chown u1:group2 /home/u4 
+```
+
+#### • Remplacez le groupe primaire des utilisateurs :
+#### - groupe1 pour u1 et u2 <br>
+#### - groupe2 pour u3 et u4 <br>
+Pour remplacer le groupe pirmaire des utilisateurs : 
+```
+usermod -g groupe1 u1 
+usermod -g groupe1 u2
+usermod -g groupe2 u3
+usermod -g groupe2 u4
+```
+
+#### • Créez deux répertoires /home/groupe1 et /home/groupe2 pour le contenu commun aux groupes, et mettez en place les permissions permettant aux membres de chaque groupe d’écrire dans le dossier associé.
+
 • Comment faire pour que, dans ces dossiers, seul le propriétaire d’un fichier ait le droit de renommer
 ou supprimer ce fichier ?
 • Pouvez-vous vous connecter en tant que u1 ? Pourquoi ?
