@@ -65,26 +65,65 @@ chmod +t /home/groupe1
 chmod +t /home/groupe2
 ```
 
-• Pouvez-vous vous connecter en tant que u1 ? Pourquoi ?
+#### • Pouvez-vous vous connecter en tant que u1 ? Pourquoi ?
+Non il n'est pas possible de se connecter en tant que u1 avec la commande `su u1`, en effet celui-ci n'a pas de mot de passe, ont ne peut donc pas se connecter.
 
-• Activez le compte de l’utilisateur u1 et vérifiez que vous pouvez désormais vous connecter avec son
-compte.
-• Quels sont l’uid et le gid de u1 ?
-• Quel utilisateur a pour uid 1003 ?
-• Quel est l’id du groupe groupe1 ?
+#### • Activez le compte de l’utilisateur u1 et vérifiez que vous pouvez désormais vous connecter avec son compte.
+Tout d'abord nous initialisons le mot de passe de u1: `sudo passwd u1` <br>
+```
+[sudo] password for serveur:
+New password:
+Retype new password:
+passwd: password updated successfully
+```
+Il est maintenant possible de se connecter a u1.
+
+#### • Quels sont l’uid et le gid de u1 ?
+En tapant `id` : 
+```
+uid=1001(u1) gid=1005(groupe1) groups=1005(groupe1)
+```
+
+#### • Quel utilisateur a pour uid 1003 ?
+```
+id 1003
+uid=1003(u3) gid=1006(groupe2) groups=1006(groupe2)
+``` 
+C'est l'utilisateur u3.
+
+#### • Quel est l’id du groupe groupe1 ?
+`"grep "groupe1" /etc/group`.
 • Quel groupe a pour guid 1002 ? ( Rien n’empêche d’avoir un groupe dont le nom serait 1002...)
+`grep "1002" /etc/group` : C'est le groupe 2.
+
 • Retirez l’utilisateur u3 du groupe groupe2. Que se passe-t-il ? Expliquez.
-• Modifiez le compte de u4 de sorte que :
-— il expire au 1
-er juin 2019
-— il faut changer de mot de passe avant 90 jours
-— il faut attendre 5 jours pour modifier un mot de passe
-— l’utilisateur est averti 14 jours avant l’expiration de son mot de passe
-— le compte sera bloqué 30 jours après expiration du mot de passe
-• Quel est l’interpréteur de commandes (Shell) de l’utilisateur root ?
-• à quoi correspond l’utilisateur nobody ?
-• Par défaut, combien de temps la commande sudo conserve-t-elle votre mot de passe en mémoire ?
-Quelle commande permet de forcer sudo à oublier votre mot de passe ?
+`sudo gpasswd -d u3 groupe2`
+Quand on se connecte à u3, on constate qu'il n'a plus accès au dossier groupe2.
+
+#### • Modifiez le compte de u4 de sorte que :
+##### — Il expire au 1er juin 2019
+`root@serveur:/home# sudo chage -E 60/01/2019 u4`.
+##### — Il faut changer de mot de passe avant 90 jours
+`root@serveur:/home# sudo chage -M 90 u4`.
+##### — Il faut attendre 5 jours pour modifier un mot de passe
+`root@serveur:/home# sudo chage -m 5 u4`.
+##### — L’utilisateur est averti 14 jours avant l’expiration de son mot de passe
+`root@serveur:/home# sudo chage -W 14 u4`.
+##### — Le compte sera bloqué 30 jours après expiration du mot de passe
+`root@serveur:/home# sudo chage -I 30 u4`.
+
+#### • Quel est l’interpréteur de commandes (Shell) de l’utilisateur root ?
+L'interpréteur de commandes de l'utilisateur est /bin/bash, à l'aide de la commande `echo $SHELL`
+
+#### • à quoi correspond l’utilisateur nobody ?
+l'utilisateur nobody est un compte utilisateur à qui aucun fichier n'appartient, qui n'est dans aucun groupe qui a des privilèges et dont les seules possibilités sont celles que tous les "autres utilisateurs" ont.
+
+#### • Par défaut, combien de temps la commande sudo conserve-t-elle votre mot de passe en mémoire ? 
+La commande sudo conserve le mot de passe en memoire pendant 15 minutes.
+#### Quelle commande permet de forcer sudo à oublier votre mot de passe ?
+la commande qui permet de forcer sudo à oublier son mot de passe est sudo -k.
+
+
 Exercice 2. Gestion des permissions
 • Dans votre $HOME, créez un dossier test, et dans ce dossier un fichier fichier contenant quelques
 lignes de texte. Quels sont les droits sur test et fichier ?
