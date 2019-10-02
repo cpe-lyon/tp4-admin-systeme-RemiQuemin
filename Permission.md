@@ -178,23 +178,53 @@ ls: cannot access 'test/sstest': Permission denied
 ls: cannot access 'test/fichier': Permission denied
 fichier  sstest
 ``` 
+Nous n'avons pas les droits de lister le contenu, de modifier, de se deplacer.
 
 #### • Rétablissez le droit en exécution du répertoire test. Positionnez vous dans ce répertoire et retirez lui à nouveau le droit d’exécution. Essayez de créer, supprimer et modifier un fichier dans le répertoire test, de vous déplacer dans ssrep, de lister son contenu. Qu’en concluez-vous quant à l’influence des droits que l’on possède sur le répertoire courant ? Peut-on retourner dans le répertoire parent avec ”cd ..” ? Pouvez-vous donner une explication ?
 
+serveur@serveur:~$ cd test/
+serveur@serveur:~/test$ chmod u-x ../test
+serveur@serveur:~/test$ nano nouveau
+[ Path '.': Permission denied ]
+serveur@serveur:~/test$ cd sstest
+-bash: cd: sstest: Permission denied
+serveur@serveur:~/test$ ls
+ls: cannot open directory '.': Permission denied
+serveur@serveur:~/test$ cd ..
+serveur@serveur:~$ 
+
+Les droits sont dynamiques et s'applique dès leurs modifications. Pour l'exemple, une fois le droit d'execution retiré, plus aucune action n'est possible.
+
 #### • Rétablissez le droit en exécution du répertoire test. Attribuez au fichier fichier les droits suffisants pour qu’une autre personne de votre groupe puisse y accéder en lecture, mais pas en écriture.
+`chmod 740 fichier`.
 
 #### • Définissez un umask très restrictif qui interdit à quiconque à part vous l’accès en lecture ou en écriture, ainsi que la traversée de vos répertoires. Testez sur un nouveau fichier et un nouveau répertoire.
+```
+touch fichier
+mkdir repertoire
+umask 066
+```
 
 #### • Définissez un umask très permissif qui autorise tout le monde à lire vos fichiers et traverser vos répertoires, mais n’autorise que vous à écrire. Testez sur un nouveau fichier et un nouveau répertoire.
+`umask 022`
 
 #### • Définissez un umask équilibré qui vous autorise un accès complet et autorise un accès en lecture aux membres de votre groupe. Testez sur un nouveau fichier et un nouveau répertoire.
+`umask 037`
+
 
 #### • Transcrivez les commandes suivantes de la notation classique à la notation octale ou vice-versa (vous pourrez vous aider de la commande stat pour valider vos réponses) :
-- chmod u=rx,g=wx,o=r fic
-- chmod uo+w,g-rx fic en sachant que les droits initiaux de fic sont r--r-x---
+- chmod u=rx,g=wx,o=r fic  = `534`
+- chmod uo+w,g-rx fic en sachant que les droits initiaux de fic sont r--r-x--- = 602
 - chmod 653 fic en sachant que les droits initiaux de fic sont 711
-- chmod u+x,g=w,o-r fic en sachant que les droits initiaux de fic sont r--r-x---
+- chmod u+x,g=w,o-r fic en sachant que les droits initiaux de fic sont r--r-x--- = 570
+
+
+
 
 #### • Affichez les droits sur le programme passwd. Que remarquez-vous ? En affichant les droits du fichier /etc/passwd, pouvez-vous justifier les permissions sur le programme passwd ?
+```
+ls -l /etc/passwd
+-rw-r--r-- 1 root root 1781 sept. 30 15:15 /etc/passwd
+```
 
 
