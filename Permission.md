@@ -215,9 +215,9 @@ umask 066
 
 #### • Transcrivez les commandes suivantes de la notation classique à la notation octale ou vice-versa (vous pourrez vous aider de la commande stat pour valider vos réponses) :
 - chmod u=rx,g=wx,o=r fic  = `534`
-- chmod uo+w,g-rx fic en sachant que les droits initiaux de fic sont r--r-x--- = 602
-- chmod 653 fic en sachant que les droits initiaux de fic sont 711
-- chmod u+x,g=w,o-r fic en sachant que les droits initiaux de fic sont r--r-x--- = 570
+- chmod uo+w,g-rx fic en sachant que les droits initiaux de fic sont r--r-x--- = `602`
+- chmod 653 fic en sachant que les droits initiaux de fic sont 711 = rw-r-x--wx
+- chmod u+x,g=w,o-r fic en sachant que les droits initiaux de fic sont r--r-x--- = `570`
 
 
 
