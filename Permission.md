@@ -181,7 +181,7 @@ fichier  sstest
 Nous n'avons pas les droits de lister le contenu, de modifier, de se deplacer.
 
 #### • Rétablissez le droit en exécution du répertoire test. Positionnez vous dans ce répertoire et retirez lui à nouveau le droit d’exécution. Essayez de créer, supprimer et modifier un fichier dans le répertoire test, de vous déplacer dans ssrep, de lister son contenu. Qu’en concluez-vous quant à l’influence des droits que l’on possède sur le répertoire courant ? Peut-on retourner dans le répertoire parent avec ”cd ..” ? Pouvez-vous donner une explication ?
-
+```
 serveur@serveur:~$ cd test/
 serveur@serveur:~/test$ chmod u-x ../test
 serveur@serveur:~/test$ nano nouveau
@@ -192,6 +192,7 @@ serveur@serveur:~/test$ ls
 ls: cannot open directory '.': Permission denied
 serveur@serveur:~/test$ cd ..
 serveur@serveur:~$ 
+```
 
 Les droits sont dynamiques et s'applique dès leurs modifications. Pour l'exemple, une fois le droit d'execution retiré, plus aucune action n'est possible.
 
